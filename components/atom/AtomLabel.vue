@@ -1,5 +1,5 @@
 <template>
-  <label class="text-gray-500 font-bold" for="inline-full-name">
+  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="inline-full-name">
     {{ description }}:
   </label>
 </template>

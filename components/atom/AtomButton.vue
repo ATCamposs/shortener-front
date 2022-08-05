@@ -1,8 +1,7 @@
 <template>
-  <a
-    :href="url"
-    class="block text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-  >{{ name }}</a>
+  <button class="block text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    {{ name }}
+  </button>
 </template>
 <script>
 export default {

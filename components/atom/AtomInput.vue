@@ -2,23 +2,23 @@
   <input
     v-model="inputValue"
     class="
-    bg-gray-200
     appearance-none
-    border-2
+    block
+    w-full
+    bg-gray-200
+    text-gray-700
+    border
     border-gray-200
     rounded
-    w-full
     py-2
-    px-4
-    text-gray-700
     leading-tight
     focus:outline-none
     focus:bg-white
     focus:border-gray-500
-    mt-1"
+    "
     :type="type"
     :placeholder="placeholder"
-    @input="emitEventChanged()"
+    @input="emitValueChange()"
   >
 </template>
 <script>
@@ -40,7 +40,7 @@ export default {
     }
   },
   methods: {
-    emitEventChanged () {
+    emitValueChange () {
       this.$emit('changeInputValue', this.inputValue)
     }
   }
