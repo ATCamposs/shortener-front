@@ -16,6 +16,7 @@
     focus:bg-white
     focus:border-gray-500
     "
+    :class="inputError ? 'border-red-500 focus:border-red-500' : ''"
     :type="type"
     :placeholder="placeholder"
     @input="emitValueChange()"
@@ -32,6 +33,10 @@ export default {
     placeholder: {
       type: String,
       default: null
+    },
+    inputError: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
