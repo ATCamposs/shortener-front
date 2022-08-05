@@ -1,15 +1,17 @@
 <template>
-  <p v-if="active" class="text-red-500 text-xs italic">
-    Please fill out this field.
-  </p>
+  <ul v-if="messages.length > 0" class="text-red-500 text-xs italic">
+    <li v-for="(message, index) in messages" :key="index">
+      * {{ message }}
+    </li>
+  </ul>
 </template>
 <script>
 export default {
   name: 'AtomFormError',
   props: {
-    active: {
-      type: Boolean,
-      default: false
+    messages: {
+      type: Array,
+      default: () => []
     }
   }
 }

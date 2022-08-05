@@ -9,40 +9,40 @@
     <div class="mb-2">
       <AtomLabel name="username" description="Nome de usuário" />
       <AtomInput
-        :input-error="userRegisterInputs.usernameError == true"
-        @changeInputValue="userRegisterInputs.username = $event"
+        :input-error="validationErros.username.length > 0"
+        @changeInputValue="user.username = $event"
       />
-      <AtomFormError :active="userRegisterInputs.usernameError == true" />
+      <AtomFormError :messages="validationErros.username" />
     </div>
 
     <div class="mb-2">
       <AtomLabel name="email" description="Email" />
       <AtomInput
-        :input-error="userRegisterInputs.emailError == true"
-        @changeInputValue="userRegisterInputs.email = $event"
+        :input-error="validationErros.email.length > 0"
+        @changeInputValue="user.email = $event"
       />
-      <AtomFormError :active="userRegisterInputs.emailError == true" />
+      <AtomFormError :messages="validationErros.email" />
     </div>
 
     <div class="mb-2">
       <AtomLabel name="password" description="Senha" />
       <AtomInput
-        :input-error="userRegisterInputs.passwordError == true"
-        @changeInputValue="userRegisterInputs.password = $event"
+        :input-error="validationErros.password.length > 0"
+        @changeInputValue="user.password = $event"
       />
-      <AtomFormError :active="userRegisterInputs.passwordError == true" />
+      <AtomFormError :messages="validationErros.password" />
     </div>
 
     <div class="mb-2">
       <AtomLabel name="repeat-password" description="Repita a Senha" />
       <AtomInput
-        :input-error="userRegisterInputs.repeatPasswordError == true"
-        @changeInputValue="userRegisterInputs.repeatPassword = $event"
+        :input-error="validationErros.repeatPassword.length > 0"
+        @changeInputValue="user.repeatPassword = $event"
       />
-      <AtomFormError :active="userRegisterInputs.repeatPasswordError == true" />
+      <AtomFormError :messages="validationErros.repeatPassword" />
     </div>
 
-    <AtomButton class="mt-5" url="#" name="Registrar" @click="onSubmit" />
+    <AtomButton class="mt-5" url="#" name="Registrar" />
   </form>
 </template>
 <script>
@@ -64,34 +64,47 @@ export default {
   },
   data () {
     return {
-      userRegisterInputs: {
-        username: {
-          type: String,
-          default: null
-        },
-        usernameError: {
-          type: Boolean,
-          default: false
-        },
-        email: {
-          type: String,
-          default: null
-        },
-        password: {
-          type: String,
-          default: null
-        },
-        repeatPassword: {
-          type: String,
-          default: null
-        }
+      user: {
+        username: null,
+        email: null,
+        password: null,
+        repeatPassword: null
+      },
+      validationErros: {
+        username: [],
+        email: [],
+        password: [],
+        repeatPassword: []
       }
     }
   },
   methods: {
     onSubmit () {
-      this.userRegisterInputs.usernameError = true
-      console.log(this.userRegisterInputs)
+      this.validateInputs()
+    },
+    validateInputs () {
+      this.clearInputErrors()
+      if (this.user.username == null || !/[a-zA-Z0-9]{4,8}/g.test(this.user.username)) {
+        this.validationErros.username.push('Somente letras e números')
+        this.validationErros.username.push('Somente letras e números[a-Z|0-9]')
+      }
+      if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)) {
+        this.validationErros.email.push('Deve ser um endereço de email válido')
+      }
+      if (!/(?=[#$-/:-?{-~!"^_`[\]a-zA-Z]*([0-9#$-/:-?{-~!"^_`[\]]))(?=[#$-/:-?{-~!"^_`[\]a-zA-Z0-9]*[a-zA-Z])[#$-/:-?{-~!"^_`[\]a-zA-Z0-9]{6,20}/g.test(this.validationErros.password)) {
+        this.validationErros.password.push('Deve conter no mínimo uma letra e um número')
+        this.validationErros.password.push('Somente letras e números[a-Z|0-9]')
+        this.validationErros.password.push('Entre 6 a 20 caracteres')
+      }
+      if (this.user.password !== this.user.repeatPassword) {
+        this.validationErros.repeatPassword.push('Deve se igual a senha')
+      }
+    },
+    clearInputErrors () {
+      this.validationErros.username = []
+      this.validationErros.email = []
+      this.validationErros.password = []
+      this.validationErros.repeatPassword = []
     }
   }
 }
