@@ -9,45 +9,37 @@
     <div class="mb-2">
       <AtomLabel name="username" description="Nome de usuário" />
       <AtomInput
-        :class="userRegisterInputs.usernameError == true ? 'border border-red-500 focus:border-red-500' : ''"
+        :input-error="userRegisterInputs.usernameError == true"
         @changeInputValue="userRegisterInputs.username = $event"
       />
-      <p v-if="userRegisterInputs.usernameError == true" class="text-red-500 text-xs italic">
-        Please fill out this field.
-      </p>
+      <AtomFormError :active="userRegisterInputs.usernameError == true" />
     </div>
 
     <div class="mb-2">
       <AtomLabel name="email" description="Email" />
       <AtomInput
-        :class="userRegisterInputs.emailError == true ? 'border border-red-500 focus:border-red-500' : ''"
+        :input-error="userRegisterInputs.emailError == true"
         @changeInputValue="userRegisterInputs.email = $event"
       />
-      <p v-if="userRegisterInputs.emailError == true" class="text-red-500 text-xs italic">
-        Please fill out this field.
-      </p>
+      <AtomFormError :active="userRegisterInputs.emailError == true" />
     </div>
 
     <div class="mb-2">
       <AtomLabel name="password" description="Senha" />
       <AtomInput
-        :class="userRegisterInputs.passwordError == true ? 'border border-red-500 focus:border-red-500' : ''"
+        :input-error="userRegisterInputs.passwordError == true"
         @changeInputValue="userRegisterInputs.password = $event"
       />
-      <p v-if="userRegisterInputs.emailError == true" class="text-red-500 text-xs italic">
-        Please fill out this field.
-      </p>
+      <AtomFormError :active="userRegisterInputs.passwordError == true" />
     </div>
 
     <div class="mb-2">
       <AtomLabel name="repeat-password" description="Repita a Senha" />
       <AtomInput
-        :class="userRegisterInputs.repeatPasswordError == true ? 'border border-red-500 focus:border-red-500' : ''"
+        :input-error="userRegisterInputs.repeatPasswordError == true"
         @changeInputValue="userRegisterInputs.repeatPassword = $event"
       />
-      <p v-if="userRegisterInputs.repeatPasswordError == true" class="text-red-500 text-xs italic">
-        Please fill out this field.
-      </p>
+      <AtomFormError :active="userRegisterInputs.repeatPasswordError == true" />
     </div>
 
     <AtomButton class="mt-5" url="#" name="Registrar" @click="onSubmit" />
