@@ -1,7 +1,7 @@
 <template>
   <a
     :href="url"
-    class="block text-center py-1 px-4 bg-blue-100 text-blue-500 font-semibold rounded"
+    class="block text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
   >{{ name }}</a>
 </template>
 <script>
