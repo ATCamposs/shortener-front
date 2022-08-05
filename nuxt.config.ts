@@ -10,5 +10,10 @@ export default defineNuxtConfig({
     plugins: [
       eslintPlugin()
     ]
+  },
+  build: {
+    postcss: {
+      postcssOptions: require('./postcss.config.js')
+    }
   }
 })
