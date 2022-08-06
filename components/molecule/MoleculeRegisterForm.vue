@@ -84,20 +84,20 @@ export default {
     },
     validateInputs () {
       this.clearInputErrors()
-      if (this.user.username == null || !/[a-zA-Z0-9]{4,8}/g.test(this.user.username)) {
-        this.validationErros.username.push('Somente letras e números')
-        this.validationErros.username.push('Somente letras e números[a-Z|0-9]')
+      if (this.user.username == null || !/^[a-zA-Z0-9]{4,12}$/ig.test(this.user.username)) {
+        this.validationErros.username.push(this.$t('form.errors.onlyAlphanumeric'))
+        this.validationErros.username.push(this.$t('form.errors.onlyCharactersRange', { min: '4', max: '12' }))
       }
       if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)) {
-        this.validationErros.email.push('Deve ser um endereço de email válido')
+        this.validationErros.email.push(this.$t('form.errors.mustBeAValidEmail'))
       }
       if (!/(?=[#$-/:-?{-~!"^_`[\]a-zA-Z]*([0-9#$-/:-?{-~!"^_`[\]]))(?=[#$-/:-?{-~!"^_`[\]a-zA-Z0-9]*[a-zA-Z])[#$-/:-?{-~!"^_`[\]a-zA-Z0-9]{6,20}/g.test(this.validationErros.password)) {
-        this.validationErros.password.push('Deve conter no mínimo uma letra e um número')
-        this.validationErros.password.push('Somente letras e números[a-Z|0-9]')
-        this.validationErros.password.push('Entre 6 a 20 caracteres')
+        this.validationErros.password.push(this.$t('form.errors.mustBeAlphaNumeric'))
+        this.validationErros.password.push(this.$t('form.errors.onlyAlphanumeric'))
+        this.validationErros.password.push(this.$t('form.errors.onlyCharactersRange', { min: '6', max: '20' }))
       }
       if (this.user.password !== this.user.repeatPassword) {
-        this.validationErros.repeatPassword.push('Deve se igual a senha')
+        this.validationErros.repeatPassword.push(this.$t('form.errors.mustBeLikePassword'))
       }
     },
     clearInputErrors () {

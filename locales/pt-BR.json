@@ -6,6 +6,13 @@
             "email": "Email",
             "password": "Senha",
             "repeatPassword": "Repita a senha"
+        },
+        "errors": {
+            "onlyAlphanumeric": "Somente letras de a-Z e números entre 0-9",
+            "mustBeAValidEmail": "Deve ser um endereço de email válido",
+            "onlyCharactersRange": "Entre {min} a {max} caracteres",
+            "mustBeLikePassword": "Deve se igual a senha",
+            "mustBeAlphaNumeric": "Deve conter pelo menos um número e uma letra"
         }
     }
 }
