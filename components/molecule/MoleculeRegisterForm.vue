@@ -42,7 +42,7 @@
       <AtomFormError :messages="validationErros.repeatPassword" />
     </div>
 
-    <AtomButton class="mt-5" url="#" name="Registrar" />
+    <AtomButton class="mt-5" url="#" :name="$t('register')" />
   </form>
 </template>
 <script>
