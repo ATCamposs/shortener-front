@@ -1,0 +1,8 @@
+{
+    "welcome": "Bem vindo",
+    "form": {
+        "fields": {
+            "username": "Nome de usuário"
+        }
+    }
+}
