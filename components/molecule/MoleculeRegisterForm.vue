@@ -7,7 +7,7 @@
     />
 
     <div class="mb-2">
-      <AtomLabel name="username" description="Nome de usuário" />
+      <AtomLabel name="username" :description="$t('form.fields.username')" />
       <AtomInput
         :input-error="validationErros.username.length > 0"
         @changeInputValue="user.username = $event"
@@ -16,7 +16,7 @@
     </div>
 
     <div class="mb-2">
-      <AtomLabel name="email" description="Email" />
+      <AtomLabel name="email" :description="$t('form.fields.email')" />
       <AtomInput
         :input-error="validationErros.email.length > 0"
         @changeInputValue="user.email = $event"
@@ -25,7 +25,7 @@
     </div>
 
     <div class="mb-2">
-      <AtomLabel name="password" description="Senha" />
+      <AtomLabel name="password" :description="$t('form.fields.password')" />
       <AtomInput
         :input-error="validationErros.password.length > 0"
         @changeInputValue="user.password = $event"
@@ -34,7 +34,7 @@
     </div>
 
     <div class="mb-2">
-      <AtomLabel name="repeat-password" description="Repita a Senha" />
+      <AtomLabel name="repeat-password" :description="$t('form.fields.repeatPassword')" />
       <AtomInput
         :input-error="validationErros.repeatPassword.length > 0"
         @changeInputValue="user.repeatPassword = $event"

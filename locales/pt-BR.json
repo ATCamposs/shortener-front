@@ -2,7 +2,10 @@
     "welcome": "Bem vindo",
     "form": {
         "fields": {
-            "username": "Nome de usuário"
+            "username": "Nome de usuário",
+            "email": "Email",
+            "password": "Senha",
+            "repeatPassword": "Repita a senha"
         }
     }
 }
