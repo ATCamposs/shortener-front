@@ -47,7 +47,10 @@
     <AtomButton class="mt-5" url="#" :name="$t('register')" />
   </form>
 </template>
-<script>
+<script lang="ts">
+import { register } from '@/requests/AuthRequests'
+import { UserRegisterRequest } from '@/interfaces/UserRegisterRequest'
+
 export default {
   name: 'MoleculeFieldWithLabel',
   props: {
@@ -71,7 +74,7 @@ export default {
         email: null,
         password: null,
         repeatPassword: null
-      },
+      } as UserRegisterRequest,
       validationErros: {
         username: [],
         email: [],
@@ -81,10 +84,10 @@ export default {
     }
   },
   methods: {
-    async onSubmit () {
+    onSubmit () {
       this.validateInputs()
       if (this.checkIsValid()) {
-        await $fetch.raw('http://localhost:8080/api/auth/sign_up', { method: 'POST', body: JSON.stringify(this.user) })
+        register(this.user).then(user => localStorage.setItem('user', JSON.stringify(user)))
       }
     },
     validateInputs () {
