@@ -1,5 +1,5 @@
 <template>
-  <form class="w-1/4" @submit.prevent="onSubmit">
+  <form v-if="isSubmitting == false" class="w-1/4" @submit.prevent="onSubmit">
     <AtomTitle
       class="text-center"
       tag="h2"
@@ -68,6 +68,14 @@ export default {
       default: true
     }
   },
+  setup () {
+    const isSubmitting = useState('isSubmittingRegister', () => false)
+
+    // expose to template and other options API hooks
+    return {
+      isSubmitting
+    }
+  },
   data () {
     return {
       user: {
@@ -90,13 +98,21 @@ export default {
       this.validationErros.afterRequest = []
     },
     onSubmit () {
+      console.log(this.isSubmitting)
+      this.isSubmitting = true
       this.validateInputs()
       if (this.checkIsValid()) {
         register(this.user).then(user => localStorage.setItem('user', JSON.stringify(user)))
           .then((user) => {
             console.log(user)
+            console.log(this.isSubmitting)
+            this.isSubmitting = false
           })
-          .catch(err => this.validationErros.afterRequest.push(this.$t('form.errors.' + err.message)))
+          .catch((err) => {
+            this.validationErros.afterRequest.push(this.$t('form.errors.' + err.message))
+            console.log(this.isSubmitting)
+            this.isSubmitting = false
+          })
       }
     },
     validateInputs () {
