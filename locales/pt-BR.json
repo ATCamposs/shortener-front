@@ -12,7 +12,8 @@
             "onlyAlphanumeric": "Somente letras de a-Z e números entre 0-9",
             "mustBeAValidEmail": "Deve ser um endereço de email válido",
             "onlyCharactersRange": "Entre {min} a {max} caracteres",
-            "mustBeLikePassword": "Deve se igual a senha"
+            "mustBeLikePassword": "Deve se igual a senha",
+            "emailAlreadyInUse": "Email já está em uso"
         }
     }
 }
