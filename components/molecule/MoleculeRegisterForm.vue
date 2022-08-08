@@ -5,7 +5,7 @@
       tag="h2"
       content="Registrar"
     />
-    <AtomError class="mb-5" :errors="validationErros.afterRequest" />
+    <AtomError class="mb-5" :errors="validationErros.afterRequest" @closeErrorAlerts="closeErrorAlerts()" />
 
     <div class="mb-2">
       <AtomLabel name="username" :description="$t('form.fields.username')" />
@@ -86,6 +86,9 @@ export default {
     }
   },
   methods: {
+    closeErrorAlerts () {
+      this.validationErros.afterRequest = []
+    },
     onSubmit () {
       this.validateInputs()
       if (this.checkIsValid()) {
