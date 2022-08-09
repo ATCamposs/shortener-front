@@ -4,18 +4,14 @@
   </component>
 </template>
 
-<script>
-export default {
-  name: 'AtomTitle',
-  props: {
-    tag: {
-      type: String,
-      default: 'h1'
-    },
-    content: {
-      type: String,
-      default: 'defaultTitle'
-    }
-  }
+<script setup lang="ts">
+interface TitleProps {
+  tag?: string
+  content?: string
 }
+
+withDefaults(defineProps<TitleProps>(), {
+  tag: 'h1',
+  content: null
+})
 </script>

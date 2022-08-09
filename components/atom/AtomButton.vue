@@ -3,18 +3,15 @@
     {{ name }}
   </button>
 </template>
-<script>
-export default {
-  name: 'AtomButton',
-  props: {
-    url: {
-      type: String,
-      default: 'defaultUrl'
-    },
-    name: {
-      type: String,
-      default: 'defaultName'
-    }
-  }
+
+<script setup lang="ts">
+interface ButtonProps {
+  url: string,
+  name: string
 }
+
+withDefaults(defineProps<ButtonProps>(), {
+  url: '#',
+  name: 'buttonName'
+})
 </script>

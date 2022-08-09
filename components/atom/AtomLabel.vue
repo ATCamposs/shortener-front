@@ -3,18 +3,14 @@
     {{ description }}
   </label>
 </template>
-<script>
-export default {
-  name: 'AtomLabel',
-  props: {
-    name: {
-      type: String,
-      default: 'defaultName'
-    },
-    description: {
-      type: String,
-      default: 'defaultDescription'
-    }
-  }
+<script setup lang="ts">
+interface LabelProps {
+  name?: string
+  description?: string
 }
+
+withDefaults(defineProps<LabelProps>(), {
+  name: null,
+  description: null
+})
 </script>

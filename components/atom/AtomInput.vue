@@ -19,35 +19,23 @@
     :class="inputError ? 'border-red-500 focus:border-red-500' : ''"
     :type="type"
     :placeholder="placeholder"
-    @input="emitValueChange()"
+    @input="$emit('changeInputValue', inputValue)"
   >
 </template>
-<script>
-export default {
-  name: 'AtomInput',
-  props: {
-    type: {
-      type: String,
-      default: 'text'
-    },
-    placeholder: {
-      type: String,
-      default: null
-    },
-    inputError: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data () {
-    return {
-      inputValue: null
-    }
-  },
-  methods: {
-    emitValueChange () {
-      this.$emit('changeInputValue', this.inputValue)
-    }
-  }
+
+<script setup lang="ts">
+const inputValue = ref('')
+interface InputProps {
+  type?: string
+  placeholder?: string
+  inputError?: boolean
 }
+
+withDefaults(defineProps<InputProps>(), {
+  type: 'text',
+  placeholder: null,
+  inputError: false
+})
+
+defineEmits<{(e: 'changeInputValue', value: string): void}>()
 </script>

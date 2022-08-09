@@ -5,14 +5,12 @@
     </li>
   </ul>
 </template>
-<script>
-export default {
-  name: 'AtomFormError',
-  props: {
-    messages: {
-      type: Array,
-      default: () => []
-    }
-  }
+<script setup lang="ts">
+interface FormErrorProps {
+  messages: Array<string>
 }
+
+withDefaults(defineProps<FormErrorProps>(), {
+  messages: () => []
+})
 </script>
