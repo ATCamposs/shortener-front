@@ -5,7 +5,7 @@
       tag="h2"
       content="Registrar"
     />
-    <AtomError class="mb-5" :errors="validationErros.afterRequest" @closeErrorAlerts="closeErrorAlerts()" />
+    <AtomError class="mb-5" :errors="validationErros.afterRequest" @closeRegisterErrorAlerts="closeErrorAlerts()" />
 
     <div class="mb-2">
       <AtomLabel name="username" :description="$t('form.fields.username')" />
@@ -99,9 +99,9 @@ export default {
     },
     onSubmit () {
       console.log(this.isSubmitting)
-      this.isSubmitting = true
       this.validateInputs()
       if (this.checkIsValid()) {
+        this.isSubmitting = true
         register(this.user).then(user => localStorage.setItem('user', JSON.stringify(user)))
           .then((user) => {
             console.log(user)
