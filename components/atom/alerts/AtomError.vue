@@ -10,7 +10,10 @@
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{errors: []}>()
+interface AtomErrorProps {
+  errors: Array<string>
+}
+defineProps<AtomErrorProps>()
 
 defineEmits<{(e: 'closeRegisterErrorAlerts', value: boolean): void}>()
 </script>

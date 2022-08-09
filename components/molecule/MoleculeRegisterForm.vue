@@ -48,105 +48,97 @@
     <AtomButton class="mt-5" url="#" :name="$t('register')" />
   </form>
 </template>
-<script lang="ts">
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { register } from '@/requests/AuthRequests'
 import { UserRegisterRequest } from '@/interfaces/UserRegisterRequest'
+const { t } = useI18n()
 
-export default {
-  name: 'MoleculeFieldWithLabel',
-  props: {
-    name: {
-      type: String,
-      default: 'defaultName'
-    },
-    description: {
-      type: String,
-      default: 'defaultDescription'
-    },
-    breakLine: {
-      type: Boolean,
-      default: true
-    }
-  },
-  setup () {
-    const isSubmitting = useState('isSubmittingRegister', () => false)
+interface MoleculeRegisterFormProps {
+  name?: string
+  description?: string
+}
 
-    // expose to template and other options API hooks
-    return {
-      isSubmitting
-    }
-  },
-  data () {
-    return {
-      user: {
-        username: null,
-        email: null,
-        password: null,
-        repeatPassword: null
-      } as UserRegisterRequest,
-      validationErros: {
-        username: [],
-        email: [],
-        password: [],
-        repeatPassword: [],
-        afterRequest: []
-      }
-    }
-  },
-  methods: {
-    closeErrorAlerts () {
-      this.validationErros.afterRequest = []
-    },
-    onSubmit () {
-      console.log(this.isSubmitting)
-      this.validateInputs()
-      if (this.checkIsValid()) {
-        this.isSubmitting = true
-        register(this.user).then(user => localStorage.setItem('user', JSON.stringify(user)))
-          .then((user) => {
-            console.log(user)
-            console.log(this.isSubmitting)
-            this.isSubmitting = false
-          })
-          .catch((err) => {
-            this.validationErros.afterRequest.push(this.$t('form.errors.' + err.message))
-            console.log(this.isSubmitting)
-            this.isSubmitting = false
-          })
-      }
-    },
-    validateInputs () {
-      this.clearInputErrors()
-      if (this.user.username == null || !/^[a-zA-Z0-9]{4,12}$/ig.test(this.user.username)) {
-        this.validationErros.username.push(this.$t('form.errors.onlyAlphanumeric'))
-        this.validationErros.username.push(this.$t('form.errors.onlyCharactersRange', { min: '4', max: '12' }))
-      }
-      if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)) {
-        this.validationErros.email.push(this.$t('form.errors.mustBeAValidEmail'))
-      }
-      if (!/^[a-zA-Z0-9\-_]{8,20}$/g.test(this.user.password)) {
-        this.validationErros.password.push(this.$t('form.errors.onlyAlphanumeric'))
-        this.validationErros.password.push(this.$t('form.errors.onlyCharactersRange', { min: '8', max: '20' }))
-      }
-      if (this.user.password !== this.user.repeatPassword) {
-        this.validationErros.repeatPassword.push(this.$t('form.errors.mustBeLikePassword'))
-      }
-    },
-    checkIsValid () {
-      let isValid = true
-      Object.entries(this.validationErros).forEach((element) => {
-        if (Object.keys(element[1]).length > 0) {
-          isValid = false
-        }
+withDefaults(defineProps<MoleculeRegisterFormProps>(), {
+  name: 'defaultName',
+  description: 'defaultDescription'
+})
+
+interface ValidationErrors {
+          username: Array<string>
+        email: Array<string>
+        password: Array<string>
+        repeatPassword: Array<string>
+        afterRequest: Array<string>
+}
+const user = ref<UserRegisterRequest>({
+  username: '',
+  email: '',
+  password: '',
+  repeatPassword: ''
+})
+const validationErros = ref<ValidationErrors>({
+  username: [],
+  email: [],
+  password: [],
+  repeatPassword: [],
+  afterRequest: []
+})
+
+const isSubmitting = useState('isSubmittingRegister', () => false)
+
+const closeErrorAlerts = () => {
+  validationErros.value.afterRequest = []
+}
+const onSubmit = () => {
+  console.log(isSubmitting.value)
+  validateInputs()
+  if (checkIsValid()) {
+    isSubmitting.value = true
+    register(user.value)
+      .then((user) => {
+        console.log(user)
+        console.log(isSubmitting.value)
+        localStorage.setItem('user', JSON.stringify(user))
+        isSubmitting.value = false
       })
-      return isValid
-    },
-    clearInputErrors () {
-      this.validationErros.username = []
-      this.validationErros.email = []
-      this.validationErros.password = []
-      this.validationErros.repeatPassword = []
-    }
+      .catch((err) => {
+        validationErros.value.afterRequest.push(t('form.errors.' + err.message))
+        console.log(isSubmitting)
+        isSubmitting.value = false
+      })
   }
+}
+const validateInputs = () => {
+  clearInputErrors()
+  if (user.value.username == null || !/^[a-zA-Z0-9]{4,12}$/ig.test(user.value.username)) {
+    validationErros.value.username.push(t('form.errors.onlyAlphanumeric'))
+    validationErros.value.username.push(t('form.errors.onlyCharactersRange', { min: '4', max: '12' }))
+  }
+  if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(user.value.email)) {
+    validationErros.value.email.push(t('form.errors.mustBeAValidEmail'))
+  }
+  if (!/^[a-zA-Z0-9\-_]{8,20}$/g.test(user.value.password)) {
+    validationErros.value.password.push(t('form.errors.onlyAlphanumeric'))
+    validationErros.value.password.push(t('form.errors.onlyCharactersRange', { min: '8', max: '20' }))
+  }
+  if (user.value.password !== user.value.repeatPassword) {
+    validationErros.value.repeatPassword.push(t('form.errors.mustBeLikePassword'))
+  }
+}
+const checkIsValid = () => {
+  let isValid = true
+  Object.entries(validationErros.value).forEach((element) => {
+    if (Object.keys(element[1]).length > 0) {
+      isValid = false
+    }
+  })
+  return isValid
+}
+const clearInputErrors = () => {
+  validationErros.value.username = []
+  validationErros.value.email = []
+  validationErros.value.password = []
+  validationErros.value.repeatPassword = []
 }
 </script>
