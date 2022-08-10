@@ -1,6 +1,6 @@
 import { User } from '@/models/User'
-import { UserRegisterRequest } from '@/interfaces/UserRegisterRequest'
 import { UserAlreadyExistsByEmailException } from '@/requests/errors/AuthErrors'
+import { UserRegisterRequest } from '~~/types/Register'
 
 export async function register (userParams: UserRegisterRequest) : Promise<User> {
   try {
