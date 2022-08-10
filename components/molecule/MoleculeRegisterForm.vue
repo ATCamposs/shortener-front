@@ -6,19 +6,20 @@
 
       <div class="mb-2">
         <AtomLabel name="username" :description="$t('form.fields.username')" />
-        <AtomInput :input-error="validationErros.username.length > 0" @changeInputValue="user.username = $event" />
+        <AtomInput :value="user.username" :input-error="validationErros.username.length > 0" @changeInputValue="user.username = $event" />
         <AtomFormError :messages="validationErros.username" />
       </div>
 
       <div class="mb-2">
         <AtomLabel name="email" :description="$t('form.fields.email')" />
-        <AtomInput :input-error="validationErros.email.length > 0" @changeInputValue="user.email = $event" />
+        <AtomInput :value="user.email" :input-error="validationErros.email.length > 0" @changeInputValue="user.email = $event" />
         <AtomFormError :messages="validationErros.email" />
       </div>
 
       <div class="mb-2">
         <AtomLabel name="password" :description="$t('form.fields.password')" />
         <AtomInput
+          :value="user.password"
           :input-error="validationErros.password.length > 0"
           type="password"
           @changeInputValue="user.password = $event"
@@ -29,6 +30,7 @@
       <div class="mb-2">
         <AtomLabel name="repeat-password" :description="$t('form.fields.repeatPassword')" />
         <AtomInput
+          :value="user.repeatPassword"
           :input-error="validationErros.repeatPassword.length > 0"
           type="password"
           @changeInputValue="user.repeatPassword = $event"
@@ -68,12 +70,14 @@ interface ValidationErrors {
   repeatPassword: Array<string>
   afterRequest: Array<string>
 }
-const user = ref<UserRegisterRequest>({
+
+const user = useState<UserRegisterRequest>('userRegisterRequestParams', () => ref<UserRegisterRequest>({
   username: '',
   email: '',
   password: '',
   repeatPassword: ''
-})
+}))
+
 const validationErros = ref<ValidationErrors>({
   username: [],
   email: [],
@@ -88,20 +92,19 @@ const closeErrorAlerts = () => {
   validationErros.value.afterRequest = []
 }
 const onSubmit = () => {
-  console.log(isSubmitting.value)
+  console.log(user.value)
   validateInputs()
   if (checkIsValid()) {
     isSubmitting.value = true
     register(user.value)
       .then((user) => {
         console.log(user)
-        console.log(isSubmitting.value)
         localStorage.setItem('user', JSON.stringify(user))
         isSubmitting.value = false
       })
       .catch((err) => {
+        console.log(user.value)
         validationErros.value.afterRequest.push(t('form.errors.' + err.message))
-        console.log(isSubmitting)
         isSubmitting.value = false
       })
   }
