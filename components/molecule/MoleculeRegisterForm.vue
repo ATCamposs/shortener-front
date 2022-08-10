@@ -1,52 +1,49 @@
 <template>
-  <form v-if="isSubmitting == false" class="w-1/4" @submit.prevent="onSubmit">
-    <AtomTitle
-      class="text-center"
-      tag="h2"
-      content="Registrar"
-    />
-    <AtomError class="mb-5" :errors="validationErros.afterRequest" @closeRegisterErrorAlerts="closeErrorAlerts()" />
+  <div class="w-1/4">
+    <form v-if="isSubmitting == false" @submit.prevent="onSubmit">
+      <AtomTitle class="text-center" tag="h2" content="Registrar" />
+      <AtomError class="mb-5" :errors="validationErros.afterRequest" @closeRegisterErrorAlerts="closeErrorAlerts()" />
 
-    <div class="mb-2">
-      <AtomLabel name="username" :description="$t('form.fields.username')" />
-      <AtomInput
-        :input-error="validationErros.username.length > 0"
-        @changeInputValue="user.username = $event"
-      />
-      <AtomFormError :messages="validationErros.username" />
+      <div class="mb-2">
+        <AtomLabel name="username" :description="$t('form.fields.username')" />
+        <AtomInput :input-error="validationErros.username.length > 0" @changeInputValue="user.username = $event" />
+        <AtomFormError :messages="validationErros.username" />
+      </div>
+
+      <div class="mb-2">
+        <AtomLabel name="email" :description="$t('form.fields.email')" />
+        <AtomInput :input-error="validationErros.email.length > 0" @changeInputValue="user.email = $event" />
+        <AtomFormError :messages="validationErros.email" />
+      </div>
+
+      <div class="mb-2">
+        <AtomLabel name="password" :description="$t('form.fields.password')" />
+        <AtomInput
+          :input-error="validationErros.password.length > 0"
+          type="password"
+          @changeInputValue="user.password = $event"
+        />
+        <AtomFormError :messages="validationErros.password" />
+      </div>
+
+      <div class="mb-2">
+        <AtomLabel name="repeat-password" :description="$t('form.fields.repeatPassword')" />
+        <AtomInput
+          :input-error="validationErros.repeatPassword.length > 0"
+          type="password"
+          @changeInputValue="user.repeatPassword = $event"
+        />
+        <AtomFormError :messages="validationErros.repeatPassword" />
+      </div>
+
+      <AtomButton class="mt-5" url="#" :name="$t('register')" />
+    </form>
+    <div v-else>
+      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%" />
+      </div>
     </div>
-
-    <div class="mb-2">
-      <AtomLabel name="email" :description="$t('form.fields.email')" />
-      <AtomInput
-        :input-error="validationErros.email.length > 0"
-        @changeInputValue="user.email = $event"
-      />
-      <AtomFormError :messages="validationErros.email" />
-    </div>
-
-    <div class="mb-2">
-      <AtomLabel name="password" :description="$t('form.fields.password')" />
-      <AtomInput
-        :input-error="validationErros.password.length > 0"
-        type="password"
-        @changeInputValue="user.password = $event"
-      />
-      <AtomFormError :messages="validationErros.password" />
-    </div>
-
-    <div class="mb-2">
-      <AtomLabel name="repeat-password" :description="$t('form.fields.repeatPassword')" />
-      <AtomInput
-        :input-error="validationErros.repeatPassword.length > 0"
-        type="password"
-        @changeInputValue="user.repeatPassword = $event"
-      />
-      <AtomFormError :messages="validationErros.repeatPassword" />
-    </div>
-
-    <AtomButton class="mt-5" url="#" :name="$t('register')" />
-  </form>
+  </div>
 </template>
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
@@ -65,11 +62,11 @@ withDefaults(defineProps<MoleculeRegisterFormProps>(), {
 })
 
 interface ValidationErrors {
-          username: Array<string>
-        email: Array<string>
-        password: Array<string>
-        repeatPassword: Array<string>
-        afterRequest: Array<string>
+  username: Array<string>
+  email: Array<string>
+  password: Array<string>
+  repeatPassword: Array<string>
+  afterRequest: Array<string>
 }
 const user = ref<UserRegisterRequest>({
   username: '',
