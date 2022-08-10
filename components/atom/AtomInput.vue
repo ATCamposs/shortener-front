@@ -18,24 +18,27 @@
     "
     :class="inputError ? 'border-red-500 focus:border-red-500' : ''"
     :type="type"
-    :placeholder="placeholder"
+    :placeholder="props.placeholder"
     @input="$emit('changeInputValue', inputValue)"
   >
 </template>
 
 <script setup lang="ts">
-const inputValue = ref('')
 interface InputProps {
   type?: string
+  value?: string
   placeholder?: string
   inputError?: boolean
 }
 
-withDefaults(defineProps<InputProps>(), {
+const props = withDefaults(defineProps<InputProps>(), {
   type: 'text',
+  value: null,
   placeholder: null,
   inputError: false
 })
+
+const inputValue = ref(props.value)
 
 defineEmits<{(e: 'changeInputValue', value: string): void}>()
 </script>
