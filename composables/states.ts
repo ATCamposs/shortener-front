@@ -1,4 +1,4 @@
-import { UserRegisterRequest, ValidationErrors } from '~~/types/Register'
+import { UserRegisterRequest, ValidationErrors } from '@/types/Register'
 
 export const useUserRegisterRequestParams = () => useState<UserRegisterRequest>('userRegisterRequestParams', () => ref<UserRegisterRequest>({
   username: '',
