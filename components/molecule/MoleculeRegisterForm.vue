@@ -1,7 +1,9 @@
 <template>
   <div class="w-1/4">
     <form v-if="isSubmitting == false" @submit.prevent="onSubmit">
-      <AtomTitle class="text-center" tag="h2" content="Registrar" />
+      <AtomTitle class="text-center" tag="h2">
+        Registrar
+      </AtomTitle>
       <AtomError class="mb-5" :errors="validationErros.afterRequest" @closeRegisterErrorAlerts="closeErrorAlerts()" />
 
       <div class="mb-2">
@@ -41,16 +43,13 @@
       <AtomButton class="mt-5" url="#" :name="$t('register')" />
     </form>
     <div v-else>
-      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%" />
-      </div>
+      <MoleculeRegisterLoading />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { register } from '@/requests/AuthRequests'
-import { UserRegisterRequest } from '@/interfaces/UserRegisterRequest'
+import { sendRegisterUserRequest } from '@/requests/AuthRequests'
 const { t } = useI18n()
 
 interface MoleculeRegisterFormProps {
@@ -63,47 +62,23 @@ withDefaults(defineProps<MoleculeRegisterFormProps>(), {
   description: 'defaultDescription'
 })
 
-interface ValidationErrors {
-  username: Array<string>
-  email: Array<string>
-  password: Array<string>
-  repeatPassword: Array<string>
-  afterRequest: Array<string>
-}
-
-const user = useState<UserRegisterRequest>('userRegisterRequestParams', () => ref<UserRegisterRequest>({
-  username: '',
-  email: '',
-  password: '',
-  repeatPassword: ''
-}))
-
-const validationErros = ref<ValidationErrors>({
-  username: [],
-  email: [],
-  password: [],
-  repeatPassword: [],
-  afterRequest: []
-})
-
-const isSubmitting = useState('isSubmittingRegister', () => false)
+const user = useUserRegisterRequestParams()
+const validationErros = useUserRegisterValidationErrorsParams()
+const isSubmitting = useIsSubmitting()
 
 const closeErrorAlerts = () => {
   validationErros.value.afterRequest = []
 }
 const onSubmit = () => {
-  console.log(user.value)
   validateInputs()
   if (checkIsValid()) {
     isSubmitting.value = true
-    register(user.value)
+    sendRegisterUserRequest(user.value)
       .then((user) => {
-        console.log(user)
-        localStorage.setItem('user', JSON.stringify(user))
+        setUserOnStorage(user)
         isSubmitting.value = false
       })
       .catch((err) => {
-        console.log(user.value)
         validationErros.value.afterRequest.push(t('form.errors.' + err.message))
         isSubmitting.value = false
       })
