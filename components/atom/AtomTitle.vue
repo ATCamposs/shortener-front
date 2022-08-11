@@ -1,17 +1,15 @@
 <template>
   <component :is="tag" class="text-3xl font-serif pb-2">
-    {{ content }}
+    <slot />
   </component>
 </template>
 
 <script setup lang="ts">
 interface TitleProps {
   tag?: string
-  content?: string
 }
 
 withDefaults(defineProps<TitleProps>(), {
-  tag: 'h1',
-  content: null
+  tag: 'h1'
 })
 </script>
