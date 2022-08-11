@@ -4,12 +4,12 @@
   </p>
 </template>
 <script setup lang="ts">
-interface LabelText {
+interface TextProps {
   name?: string
   description?: string
 }
 
-withDefaults(defineProps<LabelText>(), {
+withDefaults(defineProps<TextProps>(), {
   name: null,
   description: null
 })

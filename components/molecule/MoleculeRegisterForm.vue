@@ -42,7 +42,7 @@
     <AtomButton class="mt-5" url="#" :name="$t('register')" />
   </form>
   <div v-else>
-    <MoleculeRegisterLoading />
+    <MoleculeLoading :phases="loadingPhases" />
   </div>
 </template>
 <script setup lang="ts">
@@ -64,6 +64,13 @@ withDefaults(defineProps<MoleculeRegisterFormProps>(), {
 const user = useUserRegisterRequestParams()
 const validationErros = useUserRegisterValidationErrorsParams()
 const isSubmitting = useIsSubmittingRegister()
+
+const loadingPhases = [
+  t('form.progressBar.verifyingUsername'),
+  t('form.progressBar.verifyingEmail'),
+  t('form.progressBar.validatingPassword'),
+  t('form.progressBar.awaitingServerConnection')
+]
 
 const closeErrorAlerts = () => {
   validationErros.value.afterRequest = []
