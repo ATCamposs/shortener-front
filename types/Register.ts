@@ -5,7 +5,7 @@ export interface UserRegisterRequest {
     repeatPassword: string
 }
 
-export interface ValidationErrors {
+export interface UserRegisterValidationErrors {
     username: Array<string>
     email: Array<string>
     password: Array<string>
