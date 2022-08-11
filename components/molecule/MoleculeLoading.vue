@@ -10,22 +10,28 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 const progress = ref(0)
 const progressTexts = ref('Inicializando')
-const { t } = useI18n()
+
+interface LoadingProps {
+  phases: string[]
+}
+
+const props = defineProps<LoadingProps>()
 
 onMounted(() => {
+  if (props.phases.values.length < 4) { throw new Error('Must have 4 phases on MoleculeLoading') }
+
   setInterval(() => {
     if (progress.value < 100) {
       if (progress.value >= 20 && progress.value < 40) {
-        progressTexts.value = t('form.progressBar.verifyingUsername')
+        progressTexts.value = props.phases[0]
       } else if (progress.value >= 40 && progress.value < 60) {
-        progressTexts.value = t('form.progressBar.verifyingEmail')
+        progressTexts.value = props.phases[1]
       } else if (progress.value >= 60 && progress.value < 80) {
-        progressTexts.value = t('form.progressBar.validatingPassword')
+        progressTexts.value = props.phases[2]
       } else if (progress.value >= 80) {
-        progressTexts.value = t('form.progressBar.awaitingServerConnection')
+        progressTexts.value = props.phases[3]
       }
       progress.value++
     }
