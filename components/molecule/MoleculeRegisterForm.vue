@@ -48,6 +48,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { sendRegisterUserRequest } from '@/requests/AuthRequests'
+import { isInvalidEmail, isInvalidPassword } from '@/utils/Validations'
 const { t } = useI18n()
 
 interface MoleculeRegisterFormProps {
@@ -88,10 +89,10 @@ const validateInputs = () => {
     validationErros.value.username.push(t('form.errors.onlyAlphanumeric'))
     validationErros.value.username.push(t('form.errors.onlyCharactersRange', { min: '4', max: '12' }))
   }
-  if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(user.value.email)) {
+  if (isInvalidEmail(user.value.email)) {
     validationErros.value.email.push(t('form.errors.mustBeAValidEmail'))
   }
-  if (!/^[a-zA-Z0-9\-_]{8,20}$/g.test(user.value.password)) {
+  if (isInvalidPassword(user.value.password)) {
     validationErros.value.password.push(t('form.errors.onlyAlphanumeric'))
     validationErros.value.password.push(t('form.errors.onlyCharactersRange', { min: '8', max: '20' }))
   }

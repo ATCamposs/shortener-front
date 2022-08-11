@@ -1,6 +1,7 @@
 {
     "welcome": "Bem vindo",
     "register": "Registrar",
+    "login": "Login",
     "form": {
         "fields": {
             "username": "Nome de usuário",
