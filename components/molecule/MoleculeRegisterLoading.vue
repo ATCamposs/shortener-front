@@ -10,19 +10,22 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 const progress = ref(0)
 const progressTexts = ref('Inicializando')
+const { t } = useI18n()
+
 onMounted(() => {
   setInterval(() => {
     if (progress.value < 100) {
       if (progress.value >= 20 && progress.value < 40) {
-        progressTexts.value = 'Verificando nome de usuário'
+        progressTexts.value = t('form.progressBar.verifyingUsername')
       } else if (progress.value >= 40 && progress.value < 60) {
-        progressTexts.value = 'Verificando Email'
+        progressTexts.value = t('form.progressBar.verifyingEmail')
       } else if (progress.value >= 60 && progress.value < 80) {
-        progressTexts.value = 'Validando senhas'
+        progressTexts.value = t('form.progressBar.validatingPassword')
       } else if (progress.value >= 80) {
-        progressTexts.value = 'Aguardando conexão com o servidor'
+        progressTexts.value = t('form.progressBar.awaitingServerConnection')
       }
       progress.value++
     }

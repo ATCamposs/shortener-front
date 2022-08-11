@@ -14,6 +14,12 @@
             "onlyCharactersRange": "Entre {min} a {max} caracteres",
             "mustBeLikePassword": "Deve se igual a senha",
             "emailAlreadyInUse": "Email já está em uso"
+        },
+        "progressBar": {
+            "verifyingUsername": "Verificando nome de usuário",
+            "verifyingEmail": "Verificando email",
+            "validatingPassword": "Validando senha",
+            "awaitingServerConnection": "Aguardando conexão com o servidor"
         }
     }
 }
