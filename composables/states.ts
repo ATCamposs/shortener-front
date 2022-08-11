@@ -1,4 +1,5 @@
-import { UserRegisterRequest, ValidationErrors } from '@/types/Register'
+import { UserRegisterRequest, UserRegisterValidationErrors } from '@/types/Register'
+import { UserLoginRequest, UserLoginValidationErrors } from '@/types/Login'
 
 export const useUserRegisterRequestParams = () => useState<UserRegisterRequest>('userRegisterRequestParams', () => ref<UserRegisterRequest>({
   username: '',
@@ -7,7 +8,7 @@ export const useUserRegisterRequestParams = () => useState<UserRegisterRequest>(
   repeatPassword: ''
 }))
 
-export const useUserRegisterValidationErrorsParams = () => useState<ValidationErrors>('userRegisterValidationErrorsParams', () => ref<ValidationErrors>({
+export const useUserRegisterValidationErrorsParams = () => useState<UserRegisterValidationErrors>('userRegisterValidationErrorsParams', () => ref<UserRegisterValidationErrors>({
   username: [],
   email: [],
   password: [],
@@ -15,4 +16,16 @@ export const useUserRegisterValidationErrorsParams = () => useState<ValidationEr
   afterRequest: []
 }))
 
-export const useIsSubmitting = () => useState<boolean>('isSubmittingRegister', () => false)
+export const useUserLoginRequest = () => useState<UserLoginRequest>('userLoginRequestParams', () => ref<UserLoginRequest>({
+  email: '',
+  password: ''
+}))
+
+export const useUserLoginValidationErrorsParams = () => useState<UserLoginValidationErrors>('userLoginValidationErrorsParams', () => ref<UserLoginValidationErrors>({
+  email: [],
+  password: [],
+  afterRequest: []
+}))
+
+export const useIsSubmittingRegister = () => useState<boolean>('isSubmittingRegister', () => false)
+export const useIsSubmittingLogin = () => useState<boolean>('isSubmittingLogin', () => false)
