@@ -1,50 +1,48 @@
 <template>
-  <div class="w-1/4">
-    <form v-if="isSubmitting == false" @submit.prevent="onSubmit">
-      <AtomTitle class="text-center" tag="h2">
-        Registrar
-      </AtomTitle>
-      <AtomError class="mb-5" :errors="validationErros.afterRequest" @closeRegisterErrorAlerts="closeErrorAlerts()" />
+  <form v-if="isSubmitting == false" @submit.prevent="onSubmit">
+    <AtomTitle class="text-center" tag="h2">
+      {{ $t('register') }}
+    </AtomTitle>
+    <AtomError class="mb-5" :errors="validationErros.afterRequest" @closeRegisterErrorAlerts="closeErrorAlerts()" />
 
-      <div class="mb-2">
-        <AtomLabel name="username" :description="$t('form.fields.username')" />
-        <AtomInput :value="user.username" :input-error="validationErros.username.length > 0" @changeInputValue="user.username = $event" />
-        <AtomFormError :messages="validationErros.username" />
-      </div>
-
-      <div class="mb-2">
-        <AtomLabel name="email" :description="$t('form.fields.email')" />
-        <AtomInput :value="user.email" :input-error="validationErros.email.length > 0" @changeInputValue="user.email = $event" />
-        <AtomFormError :messages="validationErros.email" />
-      </div>
-
-      <div class="mb-2">
-        <AtomLabel name="password" :description="$t('form.fields.password')" />
-        <AtomInput
-          :value="user.password"
-          :input-error="validationErros.password.length > 0"
-          type="password"
-          @changeInputValue="user.password = $event"
-        />
-        <AtomFormError :messages="validationErros.password" />
-      </div>
-
-      <div class="mb-2">
-        <AtomLabel name="repeat-password" :description="$t('form.fields.repeatPassword')" />
-        <AtomInput
-          :value="user.repeatPassword"
-          :input-error="validationErros.repeatPassword.length > 0"
-          type="password"
-          @changeInputValue="user.repeatPassword = $event"
-        />
-        <AtomFormError :messages="validationErros.repeatPassword" />
-      </div>
-
-      <AtomButton class="mt-5" url="#" :name="$t('register')" />
-    </form>
-    <div v-else>
-      <MoleculeRegisterLoading />
+    <div class="mb-2">
+      <AtomLabel name="username" :description="$t('form.fields.username')" />
+      <AtomInput :value="user.username" :input-error="validationErros.username.length > 0" @changeInputValue="user.username = $event" />
+      <AtomFormError :messages="validationErros.username" />
     </div>
+
+    <div class="mb-2">
+      <AtomLabel name="email" :description="$t('form.fields.email')" />
+      <AtomInput :value="user.email" :input-error="validationErros.email.length > 0" @changeInputValue="user.email = $event" />
+      <AtomFormError :messages="validationErros.email" />
+    </div>
+
+    <div class="mb-2">
+      <AtomLabel name="password" :description="$t('form.fields.password')" />
+      <AtomInput
+        :value="user.password"
+        :input-error="validationErros.password.length > 0"
+        type="password"
+        @changeInputValue="user.password = $event"
+      />
+      <AtomFormError :messages="validationErros.password" />
+    </div>
+
+    <div class="mb-2">
+      <AtomLabel name="repeat-password" :description="$t('form.fields.repeatPassword')" />
+      <AtomInput
+        :value="user.repeatPassword"
+        :input-error="validationErros.repeatPassword.length > 0"
+        type="password"
+        @changeInputValue="user.repeatPassword = $event"
+      />
+      <AtomFormError :messages="validationErros.repeatPassword" />
+    </div>
+
+    <AtomButton class="mt-5" url="#" :name="$t('register')" />
+  </form>
+  <div v-else>
+    <MoleculeRegisterLoading />
   </div>
 </template>
 <script setup lang="ts">
@@ -64,7 +62,7 @@ withDefaults(defineProps<MoleculeRegisterFormProps>(), {
 
 const user = useUserRegisterRequestParams()
 const validationErros = useUserRegisterValidationErrorsParams()
-const isSubmitting = useIsSubmitting()
+const isSubmitting = useIsSubmittingRegister()
 
 const closeErrorAlerts = () => {
   validationErros.value.afterRequest = []
