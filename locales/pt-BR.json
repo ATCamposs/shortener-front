@@ -19,6 +19,7 @@
         "progressBar": {
             "verifyingUsername": "Verificando nome de usuário",
             "verifyingEmail": "Verificando email",
+            "verifyingUserExists": "Verificando se usuário existe no sistema",
             "validatingPassword": "Validando senha",
             "awaitingServerConnection": "Aguardando conexão com o servidor"
         }

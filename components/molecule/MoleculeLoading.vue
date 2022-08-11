@@ -20,8 +20,7 @@ interface LoadingProps {
 const props = defineProps<LoadingProps>()
 
 onMounted(() => {
-  if (props.phases.values.length < 4) { throw new Error('Must have 4 phases on MoleculeLoading') }
-
+  if (props.phases.length !== 4) { throw new Error('Phases must have 4 itens, but contains ' + JSON.stringify(props.phases)) }
   setInterval(() => {
     if (progress.value < 100) {
       if (progress.value >= 20 && progress.value < 40) {

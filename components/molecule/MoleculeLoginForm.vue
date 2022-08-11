@@ -7,7 +7,7 @@
 
     <div class="mb-2">
       <AtomLabel name="email" :description="$t('form.fields.email')" />
-      <AtomInput :value="user.email" :input-error="validationErros.email.length > 0" @changeInputValue="user.email = $event" />
+      <AtomInput type="email" :value="user.email" :input-error="validationErros.email.length > 0" @changeInputValue="user.email = $event" />
       <AtomFormError :messages="validationErros.email" />
     </div>
 
@@ -24,6 +24,9 @@
 
     <AtomButton class="mt-5" url="#" :name="$t('login')" />
   </form>
+  <div v-else>
+    <MoleculeLoading :phases="loadingPhases" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -35,6 +38,13 @@ const isSubmitting = useIsSubmittingLogin()
 
 const user = useUserLoginRequest()
 const validationErros = useUserLoginValidationErrorsParams()
+
+const loadingPhases = [
+  t('form.progressBar.verifyingEmail'),
+  t('form.progressBar.validatingPassword'),
+  t('form.progressBar.verifyingUserExists'),
+  t('form.progressBar.awaitingServerConnection')
+]
 
 const onSubmit = () => {
   validateInputs()
