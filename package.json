@@ -22,6 +22,7 @@
     "vite-plugin-eslint": "^1.7.0"
   },
   "dependencies": {
-    "@nuxtjs/i18n": "^7.2.3"
+    "@nuxtjs/i18n": "^7.2.3",
+    "firebase": "^9.9.2"
   }
 }
