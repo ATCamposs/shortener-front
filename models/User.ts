@@ -1,9 +1,7 @@
 export class User {
-  username = ''
   email = ''
-  createdAt = ''
-  updatedAt = ''
   roles: Array<string> = []
+  expiresAt = ''
   token = ''
   refreshToken = ''
 }
