@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import {
   getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
@@ -15,6 +17,11 @@ export const createUser = async (email: string, password: string): Promise<UserC
 export const signInUser = (email: string, password: string): Promise<UserCredential> => {
   const auth = getAuth()
   return signInWithEmailAndPassword(auth, email, password)
+}
+
+export const signInUserWithGoogle = () => {
+  const auth = getAuth()
+  return signInWithPopup(auth, new GoogleAuthProvider())
 }
 
 // do nothing, just for future examples
