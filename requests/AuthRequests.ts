@@ -17,6 +17,7 @@ export const sendFormRegisterUserRequest = async (userParams: UserRegisterReques
       token: tokenResult.token,
       refreshToken: credentials.user.refreshToken
     }
+    setUserOnCookie(actualUser)
     return actualUser
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -41,6 +42,27 @@ export const sendFormLoginUserRequest = async (userParams: UserLoginRequest) : P
       token: tokenResult.token,
       refreshToken: credentials.user.refreshToken
     }
+    setUserOnCookie(actualUser)
+    return actualUser
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err.code)
+    return null
+  }
+}
+
+export const sendGoogleLoginUserRequest = async () : Promise<User> => {
+  try {
+    const credentials = await signInUserWithGoogle()
+    const tokenResult = await credentials.user.getIdTokenResult().then(tokenResult => tokenResult)
+    const actualUser: User = {
+      email: credentials.user.email,
+      roles: tokenResult.claims.custom_claims as Array<string>,
+      expiresAt: tokenResult.claims.exp,
+      token: tokenResult.token,
+      refreshToken: credentials.user.refreshToken
+    }
+    setUserOnCookie(actualUser)
     return actualUser
   } catch (err) {
     // eslint-disable-next-line no-console
