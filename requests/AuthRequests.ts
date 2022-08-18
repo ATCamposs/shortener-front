@@ -3,22 +3,48 @@ import { UserAlreadyExistsByEmailException } from '@/requests/errors/AuthErrors'
 import { UserRegisterRequest } from '@/types/Register'
 import { UserLoginRequest } from '@/types/Login'
 
-export async function sendRegisterUserRequest (userParams: UserRegisterRequest) : Promise<User> {
+export const sendFormRegisterUserRequest = async (userParams: UserRegisterRequest) : Promise<User> => {
   try {
-    const res = await useCustomFetch('auth/sign_up', 'POST', userParams)
-    return Object.assign(new User(), res._data)
+    const credentials = await createUser(
+      userParams.email,
+      userParams.password
+    )
+    const tokenResult = await credentials.user.getIdTokenResult().then(tokenResult => tokenResult)
+    const actualUser: User = {
+      email: credentials.user.email,
+      roles: tokenResult.claims.custom_claims as Array<string>,
+      expiresAt: tokenResult.claims.exp,
+      token: tokenResult.token,
+      refreshToken: credentials.user.refreshToken
+    }
+    return actualUser
   } catch (err) {
-    if (err.response._data.message === 'Email is already taken!') {
+    // eslint-disable-next-line no-console
+    console.log(err.code)
+    if (err.code === 'auth/email-already-in-use') {
       throw new UserAlreadyExistsByEmailException('emailAlreadyInUse')
     }
   }
 }
 
-export async function sendLoginUserRequest (userParams: UserLoginRequest) : Promise<User> {
+export const sendFormLoginUserRequest = async (userParams: UserLoginRequest) : Promise<User> => {
   try {
-    const res = await useCustomFetch('auth/sign_in', 'POST', userParams)
-    return Object.assign(new User(), res._data)
+    const credentials = await signInUser(
+      userParams.email,
+      userParams.password
+    )
+    const tokenResult = await credentials.user.getIdTokenResult().then(tokenResult => tokenResult)
+    const actualUser: User = {
+      email: credentials.user.email,
+      roles: tokenResult.claims.custom_claims as Array<string>,
+      expiresAt: tokenResult.claims.exp,
+      token: tokenResult.token,
+      refreshToken: credentials.user.refreshToken
+    }
+    return actualUser
   } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err.code)
     return null
   }
 }
