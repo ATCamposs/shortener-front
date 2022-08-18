@@ -1,5 +1,5 @@
 <template>
-  <form v-if="isSubmitting == false" @submit.prevent="onSubmit">
+  <form v-if="isSubmitting == false" @submit.prevent="sendFormLoginRequest">
     <AtomTitle class="text-center" tag="h2">
       {{ $t('login') }}
     </AtomTitle>
@@ -7,17 +7,17 @@
 
     <div class="mb-2">
       <AtomLabel name="email" :description="$t('form.fields.email')" />
-      <AtomInput type="email" :value="user.email" :input-error="validationErros.email.length > 0" @changeInputValue="user.email = $event" />
+      <AtomInput type="email" :value="userLoginParams.email" :input-error="validationErros.email.length > 0" @changeInputValue="userLoginParams.email = $event" />
       <AtomFormError :messages="validationErros.email" />
     </div>
 
     <div class="mb-2">
       <AtomLabel name="password" :description="$t('form.fields.password')" />
       <AtomInput
-        :value="user.password"
+        :value="userLoginParams.password"
         :input-error="validationErros.password.length > 0"
         type="password"
-        @changeInputValue="user.password = $event"
+        @changeInputValue="userLoginParams.password = $event"
       />
       <AtomFormError :messages="validationErros.password" />
     </div>
@@ -31,12 +31,11 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { sendLoginUserRequest } from '@/requests/AuthRequests'
-import { isInvalidEmail, isInvalidPassword } from '@/utils/Validations'
+import { sendFormLoginUserRequest } from '~~/requests/AuthRequests'
 const { t } = useI18n()
 const isSubmitting = useIsSubmittingLogin()
 
-const user = useUserLoginRequest()
+const userLoginParams = useUserLoginRequest()
 const validationErros = useUserLoginValidationErrorsParams()
 
 const loadingPhases = [
@@ -45,46 +44,40 @@ const loadingPhases = [
   t('form.progressBar.verifyingUserExists'),
   t('form.progressBar.awaitingServerConnection')
 ]
+// LOGIN WITH EMAIL AND PASSWORD
+const sendFormLoginRequest = () => {
+  // eslint-disable-next-line no-console
+  sendFormLoginUserRequest(userLoginParams.value).then(user => setUserOnCookie(user)).catch(err => console.error(err))
+}
 
-const onSubmit = () => {
-  validateInputs()
-  if (checkIsValid()) {
-    isSubmitting.value = true
-    sendLoginUserRequest(user.value)
-      .then((user) => {
-        setUserOnStorage(user)
-        isSubmitting.value = false
-      })
-      .catch((err) => {
-        validationErros.value.afterRequest.push(t('form.errors.' + err.message))
-        isSubmitting.value = false
-      })
-  }
-}
-const validateInputs = () => {
-  clearInputErrors()
-  if (isInvalidEmail(user.value.email)) {
-    validationErros.value.email.push(t('form.errors.mustBeAValidEmail'))
-  }
-  if (isInvalidPassword(user.value.password)) {
-    validationErros.value.password.push(t('form.errors.onlyAlphanumeric'))
-    validationErros.value.password.push(t('form.errors.onlyCharactersRange', { min: '8', max: '20' }))
-  }
-}
-const checkIsValid = () => {
-  let isValid = true
-  Object.entries(validationErros.value).forEach((element) => {
-    if (Object.keys(element[1]).length > 0) {
-      isValid = false
-    }
-  })
-  return isValid
-}
-const closeErrorAlerts = () => {
-  validationErros.value.afterRequest = []
-}
-const clearInputErrors = () => {
-  validationErros.value.email = []
-  validationErros.value.password = []
-}
+/* LOGIN WITH GOOGLE
+const provider = new GoogleAuthProvider()
+auth.useDeviceLanguage()
+const sendFormLoginRequest = () => {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      console.log(credential)
+      const token = credential.accessToken
+      console.log(token)
+      // The signed-in user info.
+      const user = result.user
+      console.log(user)
+    // ...
+    }).catch((error) => {
+    // Handle Errors here.
+      const errorCode = error.code
+      console.log(errorCode)
+      const errorMessage = error.message
+      console.log(errorMessage)
+      // The email of the user's account used.
+      const email = error.customData.email
+      console.log(email)
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error)
+      console.log(credential)
+    // ...
+    })
+} */
 </script>
