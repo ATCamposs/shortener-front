@@ -8,21 +8,13 @@ import {
 } from 'firebase/auth'
 
 export const createUser = async (email: string, password: string): Promise<UserCredential> => {
-  try {
-    const auth = getAuth()
-    return await createUserWithEmailAndPassword(auth, email, password)
-  } catch (err) {
-    console.log(err)
-  }
+  const auth = getAuth()
+  return await createUserWithEmailAndPassword(auth, email, password)
 }
 
 export const signInUser = (email: string, password: string): Promise<UserCredential> => {
-  try {
-    const auth = getAuth()
-    return signInWithEmailAndPassword(auth, email, password)
-  } catch (err) {
-    console.log(err)
-  }
+  const auth = getAuth()
+  return signInWithEmailAndPassword(auth, email, password)
 }
 
 // do nothing, just for future examples
