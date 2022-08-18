@@ -25,5 +25,11 @@ export default defineNuxtConfig({
       locale: 'pt-BR',
       fallbackLocale: 'en'
     }
+  },
+  publicRuntimeConfig: {
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY
+  },
+  privateRuntimeConfig: {
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY
   }
 })
